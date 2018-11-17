@@ -24,7 +24,7 @@ namespace PartyPanel
 {
     public class Plugin : IPlugin
     {
-        public string Name => "Moon's Private Debug Tools";
+        public string Name => "PartyPanel";
         public string Version => "0.0.1";
         public void OnApplicationStart()
         {
