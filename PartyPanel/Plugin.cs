@@ -10,14 +10,8 @@ using UnityEngine.SceneManagement;
 /*
  * Created by Moon on 11/12/2018
  * 
- * If, god forbid, anyone should get their hands on this code, I want it to be known
- * that I HAVE NEVER, AND WILL NEVER USE THIS FOR MALICIOUS PURPOSES.
- * BEAT SABER IS A WONDERFUL GAME THAT SHOULD BE ENJOYED AS IT IS.
- * I WOULD NEVER DARE TO RUIN IT BY CHEATING.
- * (I have been accused of cheating, which prompted this message)
- * 
- * This plugin is designed to provide a user interface to interact with songs
- * and other tweaks in-game, as I develop them
+ * This plugin is designed to provide a user interface to launch songs
+ * without being in the game
  */
 
 namespace PartyPanel
