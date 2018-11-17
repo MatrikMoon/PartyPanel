@@ -31,17 +31,17 @@ namespace PartyPanel
             SceneManager.activeSceneChanged += SceneManagerOnActiveSceneChanged;
             SceneManager.sceneLoaded += SceneManager_sceneLoaded;
 
-            ControlPanel panel = new ControlPanel();
+            PartyPanel panel = new PartyPanel();
             panel.Show();
 
             SongLoader.SongsLoadedEvent += (SongLoader sender, List<CustomLevel> loadedSongs) =>
             {
-                SharedCoroutineStarter.instance.StartCoroutine(PopulateControlPanel(panel, loadedSongs));
+                SharedCoroutineStarter.instance.StartCoroutine(PopulatePartyPanel(panel, loadedSongs));
             };
         }
 
         //Load song list into the control panel without freezing the game
-        private IEnumerator PopulateControlPanel(ControlPanel panel, List<CustomLevel> loadedSongs)
+        private IEnumerator PopulatePartyPanel(PartyPanel panel, List<CustomLevel> loadedSongs)
         {
             panel.g_songList.Enabled = false;
             foreach (CustomLevel x in loadedSongs)

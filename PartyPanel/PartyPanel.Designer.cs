@@ -146,7 +146,7 @@
             this.searchLabel.TabIndex = 3;
             this.searchLabel.Text = "Waiting for songs to load...";
             // 
-            // ControlPanel
+            // PartyPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -155,8 +155,8 @@
             this.Controls.Add(this.searchBox);
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.songListView);
-            this.Name = "ControlPanel";
-            this.Text = "ControlPanel";
+            this.Name = "PartyPanel";
+            this.Text = "PartyPanel";
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
             this.ResumeLayout(false);
