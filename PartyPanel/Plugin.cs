@@ -33,12 +33,9 @@ namespace PartyPanel
             SongLoader.SongsLoadedEvent += (SongLoader sender, List<CustomLevel> loadedSongs) =>
             {
                 //No safety checks here
-                var osts = Resources.FindObjectsOfTypeAll<LevelCollectionSO>().First().levels;
-                var allSongs = new List<IBeatmapLevel>();
-                allSongs.AddRange(osts);
-                allSongs.AddRange(loadedSongs);
-
-                SharedCoroutineStarter.instance.StartCoroutine(PopulatePartyPanel(panel, allSongs));
+                var levels = new List<IBeatmapLevel>();
+                levels.AddRange(Resources.FindObjectsOfTypeAll<LevelCollectionSO>().First().levels);
+                SharedCoroutineStarter.instance.StartCoroutine(PopulatePartyPanel(panel, levels));
             };
         }
 
@@ -58,7 +55,12 @@ namespace PartyPanel
                     }
                     catch { }
                 }
-                yield return panel.g_songList.Items.Add(x.levelID, x.songName, x.levelID);
+
+                if (x.levelID.Contains("OneSaber") || x.levelID.Contains("NoArrows"))
+                {
+                    yield return panel.g_songList.Items.Add(x.levelID, $"{x.songName}({x.levelID})", x.levelID);
+                }
+                else yield return panel.g_songList.Items.Add(x.levelID, x.songName, x.levelID);
             }
             panel.masterLevelList = loadedSongs;
             panel.g_songList.Enabled = true;

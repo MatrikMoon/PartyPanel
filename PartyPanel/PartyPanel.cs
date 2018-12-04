@@ -34,7 +34,10 @@ namespace PartyPanel
                 if (songListView.SelectedItems.Count >= 1)
                 {
                     var levelID = songListView.SelectedItems[0].Name;
-                    var level = SongLoader.CustomLevels.Where(x => x.levelID == levelID).FirstOrDefault();
+                    IBeatmapLevel level = SongLoader.CustomLevels.Where(x => x.levelID == levelID).FirstOrDefault();
+                    
+                    //There really is no safety check for this. Again.
+                    if (level == null) level = Resources.FindObjectsOfTypeAll<LevelCollectionSO>().First().levels.First(x => x.levelID == levelID);
 
                     if (level != null)
                     {
