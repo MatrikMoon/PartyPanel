@@ -13,7 +13,7 @@ namespace PartyPanel
         public Label g_searchLabel;
         public TextBox g_searchBox;
         public ListView g_songList;
-        public List<CustomLevel> masterLevelList;
+        public List<IBeatmapLevel> masterLevelList;
 
         public PartyPanel()
         {
@@ -54,17 +54,34 @@ namespace PartyPanel
         {
             if (songListView.SelectedItems.Count > 0 && difficultyDropdown.SelectedIndex >= 0)
             {
-                var gameOptions = new GameplayOptions();
-                gameOptions.mirror = mirrorCheckbox.Checked;
-                gameOptions.noEnergy = noFailCheckbox.Checked;
-                gameOptions.staticLights = staticLightsCheckbox.Checked;
-                SaberUtilities.PlaySong(songListView.SelectedItems[0].Name, (LevelDifficulty)difficultyDropdown.SelectedItem, gameOptions); //`Name` is the key we passed in on creation. Weird naming scheme.
+                var playerSettings = new PlayerSpecificSettings();
+                playerSettings.leftHanded = mirrorCheckbox.Checked;
+                playerSettings.staticLights = staticLightsCheckbox.Checked;
+                playerSettings.noTextsAndHuds = noHudCheckbox.Checked;
+                playerSettings.advancedHud= advancedHudCheckbox.Checked;
+                playerSettings.reduceDebris = reduceDebrisCheckbox.Checked;
+
+                var modifiers = new GameplayModifiers();
+                modifiers.noFail = noFailCheckbox.Checked;
+                modifiers.noBombs = noBombsCheckbox.Checked;
+                modifiers.noObstacles = noWallsCheckbox.Checked;
+                modifiers.instaFail = instaFailCheckbox.Checked && !modifiers.noFail;
+                modifiers.failOnSaberClash = failOnClashCheckbox.Checked;
+                modifiers.batteryEnergy = batteryEnergyCheckbox.Checked && !modifiers.noFail && !modifiers.instaFail;
+                modifiers.fastNotes = fastNotesCheckbox.Checked;
+                modifiers.songSpeed = fastSongCheckbox.Checked ?
+                    GameplayModifiers.SongSpeed.Faster :
+                    slowSongCheckbox.Checked ? 
+                        GameplayModifiers.SongSpeed.Slower :
+                        GameplayModifiers.SongSpeed.Normal;
+
+                SaberUtilities.PlaySong(songListView.SelectedItems[0].Name, (BeatmapDifficulty)difficultyDropdown.SelectedItem, modifiers, playerSettings); //`Name` is the key we passed in on creation. Weird naming scheme.
             }
         }
 
         private void returnToMenuButton_Click(object sender, EventArgs e)
         {
-            Resources.FindObjectsOfTypeAll<MenuSceneSetupData>().First().TransitionToScene(0.35f);
+            Resources.FindObjectsOfTypeAll<StandardLevelSceneSetupDataSO>().FirstOrDefault()?.PopScenes(0.35f);
         }
 
         private void searchBox_TextChanged(object sender, EventArgs e)

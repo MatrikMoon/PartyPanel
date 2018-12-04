@@ -5,6 +5,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
@@ -30,23 +32,32 @@ namespace PartyPanel
 
             SongLoader.SongsLoadedEvent += (SongLoader sender, List<CustomLevel> loadedSongs) =>
             {
-                SharedCoroutineStarter.instance.StartCoroutine(PopulatePartyPanel(panel, loadedSongs));
+                //No safety checks here
+                var osts = Resources.FindObjectsOfTypeAll<LevelCollectionSO>().First().levels;
+                var allSongs = new List<IBeatmapLevel>();
+                allSongs.AddRange(osts);
+                allSongs.AddRange(loadedSongs);
+
+                SharedCoroutineStarter.instance.StartCoroutine(PopulatePartyPanel(panel, allSongs));
             };
         }
 
         //Load song list into the control panel without freezing the game
-        private IEnumerator PopulatePartyPanel(PartyPanel panel, List<CustomLevel> loadedSongs)
+        private IEnumerator PopulatePartyPanel(PartyPanel panel, List<IBeatmapLevel> loadedSongs)
         {
             panel.g_songList.Enabled = false;
-            foreach (CustomLevel x in loadedSongs)
+            foreach (IBeatmapLevel x in loadedSongs)
             {
-                try
+                if (x is CustomLevel)
                 {
-                    var songIcon = Image.FromFile($"{x.customSongInfo.path}/{x.customSongInfo.coverImagePath}");
-                    panel.g_songList.SmallImageList.Images.Add(x.levelID, songIcon);
-                    panel.g_songList.LargeImageList.Images.Add(x.levelID, songIcon);
+                    try
+                    {
+                        var songIcon = Image.FromFile($"{((CustomLevel)x).customSongInfo.path}/{((CustomLevel)x).customSongInfo.coverImagePath}");
+                        panel.g_songList.SmallImageList.Images.Add(x.levelID, songIcon);
+                        panel.g_songList.LargeImageList.Images.Add(x.levelID, songIcon);
+                    }
+                    catch { }
                 }
-                catch { }
                 yield return panel.g_songList.Items.Add(x.levelID, x.songName, x.levelID);
             }
             panel.masterLevelList = loadedSongs;

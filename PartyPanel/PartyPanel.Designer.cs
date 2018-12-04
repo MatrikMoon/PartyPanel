@@ -38,16 +38,34 @@
             this.noFailCheckbox = new System.Windows.Forms.CheckBox();
             this.searchBox = new System.Windows.Forms.TextBox();
             this.searchLabel = new System.Windows.Forms.Label();
+            this.noHudCheckbox = new System.Windows.Forms.CheckBox();
+            this.playerSettingsBox = new System.Windows.Forms.GroupBox();
+            this.advancedHudCheckbox = new System.Windows.Forms.CheckBox();
+            this.reduceDebrisCheckbox = new System.Windows.Forms.CheckBox();
+            this.negativeModifiersBox = new System.Windows.Forms.GroupBox();
+            this.noBombsCheckbox = new System.Windows.Forms.CheckBox();
+            this.noWallsCheckbox = new System.Windows.Forms.CheckBox();
+            this.slowSongCheckbox = new System.Windows.Forms.CheckBox();
+            this.positiveModifierBox = new System.Windows.Forms.GroupBox();
+            this.instaFailCheckbox = new System.Windows.Forms.CheckBox();
+            this.failOnClashCheckbox = new System.Windows.Forms.CheckBox();
+            this.batteryEnergyCheckbox = new System.Windows.Forms.CheckBox();
+            this.fastNotesCheckbox = new System.Windows.Forms.CheckBox();
+            this.fastSongCheckbox = new System.Windows.Forms.CheckBox();
             this.groupBox.SuspendLayout();
+            this.playerSettingsBox.SuspendLayout();
+            this.negativeModifiersBox.SuspendLayout();
+            this.positiveModifierBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // songListView
             // 
             this.songListView.HideSelection = false;
-            this.songListView.Location = new System.Drawing.Point(12, 38);
+            this.songListView.Location = new System.Drawing.Point(16, 47);
+            this.songListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.songListView.MultiSelect = false;
             this.songListView.Name = "songListView";
-            this.songListView.Size = new System.Drawing.Size(550, 400);
+            this.songListView.Size = new System.Drawing.Size(732, 586);
             this.songListView.TabIndex = 0;
             this.songListView.UseCompatibleStateImageBehavior = false;
             this.songListView.SelectedIndexChanged += new System.EventHandler(this.songListView_SelectedIndexChanged);
@@ -56,24 +74,27 @@
             // groupBox
             // 
             this.groupBox.AutoSize = true;
+            this.groupBox.Controls.Add(this.positiveModifierBox);
+            this.groupBox.Controls.Add(this.negativeModifiersBox);
+            this.groupBox.Controls.Add(this.playerSettingsBox);
             this.groupBox.Controls.Add(this.returnToMenuButton);
             this.groupBox.Controls.Add(this.playButton);
             this.groupBox.Controls.Add(this.difficultyDropdown);
-            this.groupBox.Controls.Add(this.staticLightsCheckbox);
-            this.groupBox.Controls.Add(this.mirrorCheckbox);
-            this.groupBox.Controls.Add(this.noFailCheckbox);
-            this.groupBox.Location = new System.Drawing.Point(568, 12);
+            this.groupBox.Location = new System.Drawing.Point(757, 15);
+            this.groupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(186, 426);
+            this.groupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox.Size = new System.Drawing.Size(248, 618);
             this.groupBox.TabIndex = 1;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Options";
             // 
             // returnToMenuButton
             // 
-            this.returnToMenuButton.Location = new System.Drawing.Point(6, 146);
+            this.returnToMenuButton.Location = new System.Drawing.Point(8, 565);
+            this.returnToMenuButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.returnToMenuButton.Name = "returnToMenuButton";
-            this.returnToMenuButton.Size = new System.Drawing.Size(174, 23);
+            this.returnToMenuButton.Size = new System.Drawing.Size(232, 28);
             this.returnToMenuButton.TabIndex = 5;
             this.returnToMenuButton.Text = "Return to Menu";
             this.returnToMenuButton.UseVisualStyleBackColor = true;
@@ -81,9 +102,10 @@
             // 
             // playButton
             // 
-            this.playButton.Location = new System.Drawing.Point(6, 117);
+            this.playButton.Location = new System.Drawing.Point(8, 529);
+            this.playButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.playButton.Name = "playButton";
-            this.playButton.Size = new System.Drawing.Size(174, 23);
+            this.playButton.Size = new System.Drawing.Size(232, 28);
             this.playButton.TabIndex = 4;
             this.playButton.Text = "Play";
             this.playButton.UseVisualStyleBackColor = true;
@@ -93,17 +115,19 @@
             // 
             this.difficultyDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.difficultyDropdown.FormattingEnabled = true;
-            this.difficultyDropdown.Location = new System.Drawing.Point(6, 90);
+            this.difficultyDropdown.Location = new System.Drawing.Point(8, 496);
+            this.difficultyDropdown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.difficultyDropdown.Name = "difficultyDropdown";
-            this.difficultyDropdown.Size = new System.Drawing.Size(174, 21);
+            this.difficultyDropdown.Size = new System.Drawing.Size(231, 24);
             this.difficultyDropdown.TabIndex = 3;
             // 
             // staticLightsCheckbox
             // 
             this.staticLightsCheckbox.AutoSize = true;
-            this.staticLightsCheckbox.Location = new System.Drawing.Point(6, 67);
+            this.staticLightsCheckbox.Location = new System.Drawing.Point(7, 51);
+            this.staticLightsCheckbox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.staticLightsCheckbox.Name = "staticLightsCheckbox";
-            this.staticLightsCheckbox.Size = new System.Drawing.Size(84, 17);
+            this.staticLightsCheckbox.Size = new System.Drawing.Size(107, 21);
             this.staticLightsCheckbox.TabIndex = 2;
             this.staticLightsCheckbox.Text = "Static Lights";
             this.staticLightsCheckbox.UseVisualStyleBackColor = true;
@@ -111,9 +135,10 @@
             // mirrorCheckbox
             // 
             this.mirrorCheckbox.AutoSize = true;
-            this.mirrorCheckbox.Location = new System.Drawing.Point(6, 43);
+            this.mirrorCheckbox.Location = new System.Drawing.Point(7, 22);
+            this.mirrorCheckbox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.mirrorCheckbox.Name = "mirrorCheckbox";
-            this.mirrorCheckbox.Size = new System.Drawing.Size(52, 17);
+            this.mirrorCheckbox.Size = new System.Drawing.Size(67, 21);
             this.mirrorCheckbox.TabIndex = 1;
             this.mirrorCheckbox.Text = "Mirror";
             this.mirrorCheckbox.UseVisualStyleBackColor = true;
@@ -121,18 +146,20 @@
             // noFailCheckbox
             // 
             this.noFailCheckbox.AutoSize = true;
-            this.noFailCheckbox.Location = new System.Drawing.Point(6, 19);
+            this.noFailCheckbox.Location = new System.Drawing.Point(7, 22);
+            this.noFailCheckbox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.noFailCheckbox.Name = "noFailCheckbox";
-            this.noFailCheckbox.Size = new System.Drawing.Size(59, 17);
+            this.noFailCheckbox.Size = new System.Drawing.Size(74, 21);
             this.noFailCheckbox.TabIndex = 0;
             this.noFailCheckbox.Text = "No Fail";
             this.noFailCheckbox.UseVisualStyleBackColor = true;
             // 
             // searchBox
             // 
-            this.searchBox.Location = new System.Drawing.Point(62, 12);
+            this.searchBox.Location = new System.Drawing.Point(83, 15);
+            this.searchBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(500, 20);
+            this.searchBox.Size = new System.Drawing.Size(665, 22);
             this.searchBox.TabIndex = 2;
             this.searchBox.Visible = false;
             this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
@@ -140,25 +167,183 @@
             // searchLabel
             // 
             this.searchLabel.AutoSize = true;
-            this.searchLabel.Location = new System.Drawing.Point(12, 15);
+            this.searchLabel.Location = new System.Drawing.Point(16, 18);
+            this.searchLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.searchLabel.Name = "searchLabel";
-            this.searchLabel.Size = new System.Drawing.Size(133, 13);
+            this.searchLabel.Size = new System.Drawing.Size(177, 17);
             this.searchLabel.TabIndex = 3;
             this.searchLabel.Text = "Waiting for songs to load...";
             // 
+            // noHudCheckbox
+            // 
+            this.noHudCheckbox.AutoSize = true;
+            this.noHudCheckbox.Location = new System.Drawing.Point(7, 79);
+            this.noHudCheckbox.Name = "noHudCheckbox";
+            this.noHudCheckbox.Size = new System.Drawing.Size(82, 21);
+            this.noHudCheckbox.TabIndex = 6;
+            this.noHudCheckbox.Text = "No HUD";
+            this.noHudCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // playerSettingsBox
+            // 
+            this.playerSettingsBox.Controls.Add(this.reduceDebrisCheckbox);
+            this.playerSettingsBox.Controls.Add(this.advancedHudCheckbox);
+            this.playerSettingsBox.Controls.Add(this.staticLightsCheckbox);
+            this.playerSettingsBox.Controls.Add(this.mirrorCheckbox);
+            this.playerSettingsBox.Controls.Add(this.noHudCheckbox);
+            this.playerSettingsBox.Location = new System.Drawing.Point(17, 22);
+            this.playerSettingsBox.Name = "playerSettingsBox";
+            this.playerSettingsBox.Size = new System.Drawing.Size(222, 164);
+            this.playerSettingsBox.TabIndex = 7;
+            this.playerSettingsBox.TabStop = false;
+            this.playerSettingsBox.Text = "Player Settings";
+            // 
+            // advancedHudCheckbox
+            // 
+            this.advancedHudCheckbox.AutoSize = true;
+            this.advancedHudCheckbox.Location = new System.Drawing.Point(7, 106);
+            this.advancedHudCheckbox.Name = "advancedHudCheckbox";
+            this.advancedHudCheckbox.Size = new System.Drawing.Size(127, 21);
+            this.advancedHudCheckbox.TabIndex = 7;
+            this.advancedHudCheckbox.Text = "Advanced HUD";
+            this.advancedHudCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // reduceDebrisCheckbox
+            // 
+            this.reduceDebrisCheckbox.AutoSize = true;
+            this.reduceDebrisCheckbox.Location = new System.Drawing.Point(7, 133);
+            this.reduceDebrisCheckbox.Name = "reduceDebrisCheckbox";
+            this.reduceDebrisCheckbox.Size = new System.Drawing.Size(124, 21);
+            this.reduceDebrisCheckbox.TabIndex = 8;
+            this.reduceDebrisCheckbox.Text = "Reduce Debris";
+            this.reduceDebrisCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // negativeModifiersBox
+            // 
+            this.negativeModifiersBox.Controls.Add(this.slowSongCheckbox);
+            this.negativeModifiersBox.Controls.Add(this.noWallsCheckbox);
+            this.negativeModifiersBox.Controls.Add(this.noBombsCheckbox);
+            this.negativeModifiersBox.Controls.Add(this.noFailCheckbox);
+            this.negativeModifiersBox.Location = new System.Drawing.Point(17, 192);
+            this.negativeModifiersBox.Name = "negativeModifiersBox";
+            this.negativeModifiersBox.Size = new System.Drawing.Size(222, 131);
+            this.negativeModifiersBox.TabIndex = 8;
+            this.negativeModifiersBox.TabStop = false;
+            this.negativeModifiersBox.Text = "Negative Modifiers";
+            // 
+            // noBombsCheckbox
+            // 
+            this.noBombsCheckbox.AutoSize = true;
+            this.noBombsCheckbox.Location = new System.Drawing.Point(7, 50);
+            this.noBombsCheckbox.Name = "noBombsCheckbox";
+            this.noBombsCheckbox.Size = new System.Drawing.Size(95, 21);
+            this.noBombsCheckbox.TabIndex = 9;
+            this.noBombsCheckbox.Text = "No Bombs";
+            this.noBombsCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // noWallsCheckbox
+            // 
+            this.noWallsCheckbox.AutoSize = true;
+            this.noWallsCheckbox.Location = new System.Drawing.Point(7, 77);
+            this.noWallsCheckbox.Name = "noWallsCheckbox";
+            this.noWallsCheckbox.Size = new System.Drawing.Size(86, 21);
+            this.noWallsCheckbox.TabIndex = 10;
+            this.noWallsCheckbox.Text = "No Walls";
+            this.noWallsCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // slowSongCheckbox
+            // 
+            this.slowSongCheckbox.AutoSize = true;
+            this.slowSongCheckbox.Location = new System.Drawing.Point(7, 104);
+            this.slowSongCheckbox.Name = "slowSongCheckbox";
+            this.slowSongCheckbox.Size = new System.Drawing.Size(96, 21);
+            this.slowSongCheckbox.TabIndex = 11;
+            this.slowSongCheckbox.Text = "Slow Song";
+            this.slowSongCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // positiveModifierBox
+            // 
+            this.positiveModifierBox.Controls.Add(this.fastSongCheckbox);
+            this.positiveModifierBox.Controls.Add(this.fastNotesCheckbox);
+            this.positiveModifierBox.Controls.Add(this.batteryEnergyCheckbox);
+            this.positiveModifierBox.Controls.Add(this.failOnClashCheckbox);
+            this.positiveModifierBox.Controls.Add(this.instaFailCheckbox);
+            this.positiveModifierBox.Location = new System.Drawing.Point(17, 329);
+            this.positiveModifierBox.Name = "positiveModifierBox";
+            this.positiveModifierBox.Size = new System.Drawing.Size(223, 155);
+            this.positiveModifierBox.TabIndex = 9;
+            this.positiveModifierBox.TabStop = false;
+            this.positiveModifierBox.Text = "Positive Modifiers";
+            // 
+            // instaFailCheckbox
+            // 
+            this.instaFailCheckbox.AutoSize = true;
+            this.instaFailCheckbox.Location = new System.Drawing.Point(7, 21);
+            this.instaFailCheckbox.Name = "instaFailCheckbox";
+            this.instaFailCheckbox.Size = new System.Drawing.Size(86, 21);
+            this.instaFailCheckbox.TabIndex = 12;
+            this.instaFailCheckbox.Text = "Insta Fail";
+            this.instaFailCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // failOnClashCheckbox
+            // 
+            this.failOnClashCheckbox.AutoSize = true;
+            this.failOnClashCheckbox.Location = new System.Drawing.Point(7, 48);
+            this.failOnClashCheckbox.Name = "failOnClashCheckbox";
+            this.failOnClashCheckbox.Size = new System.Drawing.Size(156, 21);
+            this.failOnClashCheckbox.TabIndex = 13;
+            this.failOnClashCheckbox.Text = "Fail On Saber Clash";
+            this.failOnClashCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // batteryEnergyCheckbox
+            // 
+            this.batteryEnergyCheckbox.AutoSize = true;
+            this.batteryEnergyCheckbox.Location = new System.Drawing.Point(7, 75);
+            this.batteryEnergyCheckbox.Name = "batteryEnergyCheckbox";
+            this.batteryEnergyCheckbox.Size = new System.Drawing.Size(124, 21);
+            this.batteryEnergyCheckbox.TabIndex = 14;
+            this.batteryEnergyCheckbox.Text = "Battery Energy";
+            this.batteryEnergyCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // fastNotesCheckbox
+            // 
+            this.fastNotesCheckbox.AutoSize = true;
+            this.fastNotesCheckbox.Location = new System.Drawing.Point(7, 102);
+            this.fastNotesCheckbox.Name = "fastNotesCheckbox";
+            this.fastNotesCheckbox.Size = new System.Drawing.Size(98, 21);
+            this.fastNotesCheckbox.TabIndex = 15;
+            this.fastNotesCheckbox.Text = "Fast Notes";
+            this.fastNotesCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // fastSongCheckbox
+            // 
+            this.fastSongCheckbox.AutoSize = true;
+            this.fastSongCheckbox.Location = new System.Drawing.Point(7, 129);
+            this.fastSongCheckbox.Name = "fastSongCheckbox";
+            this.fastSongCheckbox.Size = new System.Drawing.Size(94, 21);
+            this.fastSongCheckbox.TabIndex = 16;
+            this.fastSongCheckbox.Text = "Fast Song";
+            this.fastSongCheckbox.UseVisualStyleBackColor = true;
+            // 
             // PartyPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(766, 450);
+            this.ClientSize = new System.Drawing.Size(1021, 645);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.searchBox);
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.songListView);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "PartyPanel";
             this.Text = "PartyPanel";
             this.groupBox.ResumeLayout(false);
-            this.groupBox.PerformLayout();
+            this.playerSettingsBox.ResumeLayout(false);
+            this.playerSettingsBox.PerformLayout();
+            this.negativeModifiersBox.ResumeLayout(false);
+            this.negativeModifiersBox.PerformLayout();
+            this.positiveModifierBox.ResumeLayout(false);
+            this.positiveModifierBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,5 +361,19 @@
         private System.Windows.Forms.Button playButton;
         private System.Windows.Forms.TextBox searchBox;
         private System.Windows.Forms.Label searchLabel;
+        private System.Windows.Forms.GroupBox playerSettingsBox;
+        private System.Windows.Forms.CheckBox noHudCheckbox;
+        private System.Windows.Forms.CheckBox advancedHudCheckbox;
+        private System.Windows.Forms.CheckBox reduceDebrisCheckbox;
+        private System.Windows.Forms.GroupBox negativeModifiersBox;
+        private System.Windows.Forms.CheckBox noBombsCheckbox;
+        private System.Windows.Forms.CheckBox noWallsCheckbox;
+        private System.Windows.Forms.CheckBox slowSongCheckbox;
+        private System.Windows.Forms.GroupBox positiveModifierBox;
+        private System.Windows.Forms.CheckBox instaFailCheckbox;
+        private System.Windows.Forms.CheckBox failOnClashCheckbox;
+        private System.Windows.Forms.CheckBox batteryEnergyCheckbox;
+        private System.Windows.Forms.CheckBox fastNotesCheckbox;
+        private System.Windows.Forms.CheckBox fastSongCheckbox;
     }
 }

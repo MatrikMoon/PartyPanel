@@ -1,40 +1,40 @@
 ﻿using SongLoaderPlugin;
 using SongLoaderPlugin.OverrideClasses;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PartyPanel
 {
     class SaberUtilities
     {
-        public static void PlaySong(string levelID, LevelDifficulty? difficulty = null, GameplayOptions options = null)
+        public static void PlaySong(string levelID, BeatmapDifficulty difficulty, GameplayModifiers gameplayModifiers = null, PlayerSpecificSettings playerSettings = null)
         {
-            var level = SongLoader.CustomLevels.Where(x => x.levelID == levelID).FirstOrDefault();
+            IBeatmapLevel level = SongLoader.CustomLevels.Where(x => x.levelID == levelID).FirstOrDefault();
 
-            if (level)
+            //There really is no safety check for this. Oh well.
+            if (level == null) level = Resources.FindObjectsOfTypeAll<LevelCollectionSO>().First().levels.First(x => x.levelID == levelID);
+
+            if (level != null)
             {
                 //Our callback for when the audio is loaded
-                Action<IStandardLevel> songLoadedCallback = (IStandardLevel loadedLevel) =>
+                Action<IBeatmapLevel> songLoadedCallback = (IBeatmapLevel loadedLevel) =>
                 {
-                    MainGameSceneSetupData mainGameSceneSetupData = Resources.FindObjectsOfTypeAll<MainGameSceneSetupData>().FirstOrDefault();
-                    mainGameSceneSetupData.Init(
-                        GetClosestDifficultyPreferLower(level, difficulty == null ? LevelDifficulty.Easy : (LevelDifficulty)difficulty),
-                        options,
-                        GameplayMode.PartyStandard,
-                        0f);
-                    mainGameSceneSetupData.didFinishEvent -= SongFinished;
-                    mainGameSceneSetupData.didFinishEvent += SongFinished;
-                    mainGameSceneSetupData.TransitionToScene(0.7f);
+                    MenuSceneSetupDataSO _menuSceneSetupData = Resources.FindObjectsOfTypeAll<MenuSceneSetupDataSO>().FirstOrDefault();
+                    _menuSceneSetupData.StartStandardLevel(
+                        loadedLevel.GetDifficultyBeatmap(difficulty),
+                        gameplayModifiers ?? new GameplayModifiers(),
+                        playerSettings ?? new PlayerSpecificSettings(),
+                        null,
+                        null,
+                        null
+                    );
                 };
 
                 //Load audio if it's custom
                 if (level is CustomLevel)
                 {
-                    SongLoader.Instance.LoadAudioClipForLevel(level, songLoadedCallback);
+                    SongLoader.Instance.LoadAudioClipForLevel((CustomLevel)level, songLoadedCallback);
                 }
                 else
                 {
@@ -43,16 +43,10 @@ namespace PartyPanel
             }
         }
 
-        private static void SongFinished(MainGameSceneSetupData mainGameSceneSetupData, LevelCompletionResults results)
-        {
-            mainGameSceneSetupData.didFinishEvent -= SongFinished;
-            Resources.FindObjectsOfTypeAll<MenuSceneSetupData>().First().TransitionToScene((results == null) ? 0.35f : 1.3f);
-        }
-
         //Returns the closest difficulty to the one provided, preferring lower difficulties first if any exist
-        private static IStandardLevelDifficultyBeatmap GetClosestDifficultyPreferLower(IStandardLevel level, LevelDifficulty difficulty)
+        private static IDifficultyBeatmap GetClosestDifficultyPreferLower(IBeatmapLevel level, BeatmapDifficulty difficulty)
         {
-            IStandardLevelDifficultyBeatmap ret = level.GetDifficultyLevel(difficulty);
+            IDifficultyBeatmap ret = level.GetDifficultyBeatmap(difficulty);
             if (ret == null)
             {
                 ret = GetLowerDifficulty(level, difficulty);
@@ -65,16 +59,16 @@ namespace PartyPanel
         }
 
         //Returns the next-lowest difficulty to the one provided
-        private static IStandardLevelDifficultyBeatmap GetLowerDifficulty(IStandardLevel level, LevelDifficulty difficulty)
+        private static IDifficultyBeatmap GetLowerDifficulty(IBeatmapLevel level, BeatmapDifficulty difficulty)
         {
-            IStandardLevelDifficultyBeatmap[] availableMaps = level.difficultyBeatmaps.OrderBy(x => x.difficulty).ToArray();
+            IDifficultyBeatmap[] availableMaps = level.difficultyBeatmaps.OrderBy(x => x.difficulty).ToArray();
             return availableMaps.TakeWhile(x => x.difficulty < difficulty).LastOrDefault();
         }
 
         //Returns the next-highest difficulty to the one provided
-        private static IStandardLevelDifficultyBeatmap GetHigherDifficulty(IStandardLevel level, LevelDifficulty difficulty)
+        private static IDifficultyBeatmap GetHigherDifficulty(IBeatmapLevel level, BeatmapDifficulty difficulty)
         {
-            IStandardLevelDifficultyBeatmap[] availableMaps = level.difficultyBeatmaps.OrderBy(x => x.difficulty).ToArray();
+            IDifficultyBeatmap[] availableMaps = level.difficultyBeatmaps.OrderBy(x => x.difficulty).ToArray();
             return availableMaps.SkipWhile(x => x.difficulty < difficulty).FirstOrDefault();
         }
     }
