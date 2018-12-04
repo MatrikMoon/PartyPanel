@@ -5,7 +5,7 @@ Feel free to contribute by adding miscellaneous options (such as setting the pla
 PR's accepted! :)
 
 TODO:
-1. Add the OSTs
+1. Label the OSTs. Right now it's impossible to tell between OneSaber and NoArrows and standard.
 
 Known issues:
 1. When you drag the window, the game will look like it's frozen to your friend in VR. Blame Windows Forms.
