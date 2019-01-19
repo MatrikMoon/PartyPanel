@@ -77,6 +77,7 @@ namespace PartyPanel
                     slowSongCheckbox.Checked ? 
                         GameplayModifiers.SongSpeed.Slower :
                         GameplayModifiers.SongSpeed.Normal;
+                modifiers.disappearingArrows = disappearingArrowsCheckbox.Checked;
 
                 SaberUtilities.PlaySong(songListView.SelectedItems[0].Name, (BeatmapDifficulty)difficultyDropdown.SelectedItem, modifiers, playerSettings); //`Name` is the key we passed in on creation. Weird naming scheme.
             }
