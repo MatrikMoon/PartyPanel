@@ -8,68 +8,31 @@ namespace PartyPanel
 {
     class SaberUtilities
     {
-        public static void PlaySong(string levelID, BeatmapDifficulty difficulty, GameplayModifiers gameplayModifiers = null, PlayerSpecificSettings playerSettings = null)
+        public static void PlaySong(IDifficultyBeatmap map, GameplayModifiers gameplayModifiers = null, PlayerSpecificSettings playerSettings = null)
         {
-            IBeatmapLevel level = SongLoader.CustomLevels.Where(x => x.levelID == levelID).FirstOrDefault();
-
-            //There really is no safety check for this. Oh well.
-            if (level == null) level = Resources.FindObjectsOfTypeAll<LevelCollectionSO>().First().levels.First(x => x.levelID == levelID);
-
-            if (level != null)
+            //Our callback for when the audio is loaded
+            Action<IBeatmapLevel> songLoadedCallback = (_) =>
             {
-                //Our callback for when the audio is loaded
-                Action<IBeatmapLevel> songLoadedCallback = (IBeatmapLevel loadedLevel) =>
-                {
-                    MenuSceneSetupDataSO _menuSceneSetupData = Resources.FindObjectsOfTypeAll<MenuSceneSetupDataSO>().FirstOrDefault();
-                    _menuSceneSetupData.StartStandardLevel(
-                        loadedLevel.GetDifficultyBeatmap(difficulty),
-                        gameplayModifiers ?? new GameplayModifiers(),
-                        playerSettings ?? new PlayerSpecificSettings(),
-                        null,
-                        null,
-                        null
-                    );
-                };
+                MenuTransitionsHelperSO menuTransitionHelper = Resources.FindObjectsOfTypeAll<MenuTransitionsHelperSO>().FirstOrDefault();
+                menuTransitionHelper.StartStandardLevel(
+                    map,
+                    gameplayModifiers ?? new GameplayModifiers(),
+                    playerSettings ?? new PlayerSpecificSettings(),
+                    null,
+                    null,
+                    null
+                );
+            };
 
-                //Load audio if it's custom
-                if (level is CustomLevel)
-                {
-                    SongLoader.Instance.LoadAudioClipForLevel((CustomLevel)level, songLoadedCallback);
-                }
-                else
-                {
-                    songLoadedCallback(level);
-                }
-            }
-        }
-
-        //Returns the closest difficulty to the one provided, preferring lower difficulties first if any exist
-        private static IDifficultyBeatmap GetClosestDifficultyPreferLower(IBeatmapLevel level, BeatmapDifficulty difficulty)
-        {
-            IDifficultyBeatmap ret = level.GetDifficultyBeatmap(difficulty);
-            if (ret == null)
+            //Load audio if it's custom
+            if (map.level is CustomLevel)
             {
-                ret = GetLowerDifficulty(level, difficulty);
+                SongLoader.Instance.LoadAudioClipForLevel((CustomLevel)map.level, songLoadedCallback);
             }
-            if (ret == null)
+            else
             {
-                ret = GetHigherDifficulty(level, difficulty);
+                songLoadedCallback(map.level);
             }
-            return ret;
-        }
-
-        //Returns the next-lowest difficulty to the one provided
-        private static IDifficultyBeatmap GetLowerDifficulty(IBeatmapLevel level, BeatmapDifficulty difficulty)
-        {
-            IDifficultyBeatmap[] availableMaps = level.difficultyBeatmaps.OrderBy(x => x.difficulty).ToArray();
-            return availableMaps.TakeWhile(x => x.difficulty < difficulty).LastOrDefault();
-        }
-
-        //Returns the next-highest difficulty to the one provided
-        private static IDifficultyBeatmap GetHigherDifficulty(IBeatmapLevel level, BeatmapDifficulty difficulty)
-        {
-            IDifficultyBeatmap[] availableMaps = level.difficultyBeatmaps.OrderBy(x => x.difficulty).ToArray();
-            return availableMaps.SkipWhile(x => x.difficulty < difficulty).FirstOrDefault();
         }
     }
 }

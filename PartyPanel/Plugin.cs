@@ -33,14 +33,22 @@ namespace PartyPanel
             SongLoader.SongsLoadedEvent += (SongLoader sender, List<CustomLevel> loadedSongs) =>
             {
                 //No safety checks here
-                var levels = new List<IBeatmapLevel>();
-                levels.AddRange(Resources.FindObjectsOfTypeAll<LevelCollectionSO>().First().levels);
+                var additionalContentModel = Resources.FindObjectsOfTypeAll<AdditionalContentModelSO>().First();
+                var primaryLevelCollection = additionalContentModel.alwaysOwnedPacks.First(x => x.packID == "OstVol1").beatmapLevelCollection as BeatmapLevelCollectionSO;
+                var secondaryLevelCollection = additionalContentModel.alwaysOwnedPacks.First(x => x.packID == "OstVol2").beatmapLevelCollection as BeatmapLevelCollectionSO;
+                var extrasLevelCollection = additionalContentModel.alwaysOwnedPacks.First(x => x.packID == "Extras").beatmapLevelCollection as BeatmapLevelCollectionSO;
+
+                var levels = new List<BeatmapLevelSO>();
+                levels.AddRange(primaryLevelCollection.beatmapLevels as BeatmapLevelSO[]);
+                levels.AddRange(secondaryLevelCollection.beatmapLevels as BeatmapLevelSO[]);
+                levels.AddRange(extrasLevelCollection.beatmapLevels as BeatmapLevelSO[]);
+                levels.AddRange(loadedSongs);
                 SharedCoroutineStarter.instance.StartCoroutine(PopulatePartyPanel(panel, levels));
             };
         }
 
         //Load song list into the control panel without freezing the game
-        private IEnumerator PopulatePartyPanel(PartyPanel panel, List<IBeatmapLevel> loadedSongs)
+        private IEnumerator PopulatePartyPanel(PartyPanel panel, List<BeatmapLevelSO> loadedSongs)
         {
             panel.g_songList.Enabled = false;
             foreach (IBeatmapLevel x in loadedSongs)

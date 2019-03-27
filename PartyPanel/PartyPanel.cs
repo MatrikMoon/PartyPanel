@@ -13,7 +13,7 @@ namespace PartyPanel
         public Label g_searchLabel;
         public TextBox g_searchBox;
         public ListView g_songList;
-        public List<IBeatmapLevel> masterLevelList;
+        public List<BeatmapLevelSO> masterLevelList;
 
         public PartyPanel()
         {
@@ -34,15 +34,19 @@ namespace PartyPanel
                 if (songListView.SelectedItems.Count >= 1)
                 {
                     var levelID = songListView.SelectedItems[0].Name;
-                    IBeatmapLevel level = SongLoader.CustomLevels.Where(x => x.levelID == levelID).FirstOrDefault();
+                    BeatmapLevelSO level = SongLoader.CustomLevels.Where(x => x.levelID == levelID).FirstOrDefault();
                     
                     //There really is no safety check for this. Again.
-                    if (level == null) level = Resources.FindObjectsOfTypeAll<LevelCollectionSO>().First().levels.First(x => x.levelID == levelID);
+                    if (level == null) level = masterLevelList.First(x => x.levelID == levelID);
 
                     if (level != null)
                     {
+                        var desiredCharacteristic = level.beatmapCharacteristics.FirstOrDefault(x => x.serializedName == "Standard") ?? level.beatmapCharacteristics.First();
+
                         difficultyDropdown.Items.Clear();
-                        level.difficultyBeatmaps.ToList().ForEach(x => difficultyDropdown.Items.Add(x.difficulty));
+                        level.difficultyBeatmapSets
+                            .ToList().First(x => x.beatmapCharacteristic == desiredCharacteristic).difficultyBeatmaps
+                            .ToList().ForEach(x => difficultyDropdown.Items.Add(x.difficulty));
                         difficultyDropdown.SelectedIndex = difficultyDropdown.Items.Count - 1;
                     }
                 }
@@ -78,14 +82,18 @@ namespace PartyPanel
                         GameplayModifiers.SongSpeed.Slower :
                         GameplayModifiers.SongSpeed.Normal;
                 modifiers.disappearingArrows = disappearingArrowsCheckbox.Checked;
+                modifiers.ghostNotes = ghostNotesCheckbox.Checked;
 
-                SaberUtilities.PlaySong(songListView.SelectedItems[0].Name, (BeatmapDifficulty)difficultyDropdown.SelectedItem, modifiers, playerSettings); //`Name` is the key we passed in on creation. Weird naming scheme.
+                var level = masterLevelList.First(x => x.levelID == songListView.SelectedItems[0].Name);
+                var desiredCharacteristic = level.beatmapCharacteristics.FirstOrDefault(x => x.serializedName == "Standard") ?? level.beatmapCharacteristics.First();
+
+                SaberUtilities.PlaySong(level.difficultyBeatmapSets.First(x => x.beatmapCharacteristic == desiredCharacteristic).difficultyBeatmaps.First(x => x.difficulty == (BeatmapDifficulty)difficultyDropdown.SelectedItem), modifiers, playerSettings); //`Name` is the key we passed in on creation. Weird naming scheme.
             }
         }
 
         private void returnToMenuButton_Click(object sender, EventArgs e)
         {
-            Resources.FindObjectsOfTypeAll<StandardLevelSceneSetupDataSO>().FirstOrDefault()?.PopScenes(0.35f);
+            Resources.FindObjectsOfTypeAll<ScenesTransitionSetupDataSO>().FirstOrDefault()?.PopScenes(0.35f);
         }
 
         private void searchBox_TextChanged(object sender, EventArgs e)
