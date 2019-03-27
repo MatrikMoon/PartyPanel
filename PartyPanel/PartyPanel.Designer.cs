@@ -54,6 +54,7 @@
             this.searchBox = new System.Windows.Forms.TextBox();
             this.searchLabel = new System.Windows.Forms.Label();
             this.ghostNotesCheckbox = new System.Windows.Forms.CheckBox();
+            this.artBox = new System.Windows.Forms.CheckBox();
             this.groupBox.SuspendLayout();
             this.positiveModifierBox.SuspendLayout();
             this.negativeModifiersBox.SuspendLayout();
@@ -109,10 +110,9 @@
             // disappearingArrowsCheckbox
             // 
             this.disappearingArrowsCheckbox.AutoSize = true;
-            this.disappearingArrowsCheckbox.Location = new System.Drawing.Point(5, 127);
-            this.disappearingArrowsCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.disappearingArrowsCheckbox.Location = new System.Drawing.Point(7, 156);
             this.disappearingArrowsCheckbox.Name = "disappearingArrowsCheckbox";
-            this.disappearingArrowsCheckbox.Size = new System.Drawing.Size(123, 17);
+            this.disappearingArrowsCheckbox.Size = new System.Drawing.Size(161, 21);
             this.disappearingArrowsCheckbox.TabIndex = 17;
             this.disappearingArrowsCheckbox.Text = "Disappearing Arrows";
             this.disappearingArrowsCheckbox.UseVisualStyleBackColor = true;
@@ -332,7 +332,7 @@
             // 
             this.searchBox.Location = new System.Drawing.Point(62, 12);
             this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(500, 20);
+            this.searchBox.Size = new System.Drawing.Size(228, 22);
             this.searchBox.TabIndex = 2;
             this.searchBox.Visible = false;
             this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
@@ -356,12 +356,23 @@
             this.ghostNotesCheckbox.TabIndex = 18;
             this.ghostNotesCheckbox.Text = "Ghost Notes";
             this.ghostNotesCheckbox.UseVisualStyleBackColor = true;
+            // artBox
+            // 
+            this.artBox.AutoSize = true;
+            this.artBox.Location = new System.Drawing.Point(319, 16);
+            this.artBox.Name = "artBox";
+            this.artBox.Size = new System.Drawing.Size(431, 21);
+            this.artBox.TabIndex = 4;
+            this.artBox.Text = "Show Cover Art (Disabling helps with lag during song refreshes)";
+            this.artBox.UseVisualStyleBackColor = true;
+            this.artBox.CheckedChanged += new System.EventHandler(this.artBox_CheckedChanged);
             // 
             // PartyPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(766, 567);
+            this.ClientSize = new System.Drawing.Size(1021, 668);
+            this.Controls.Add(this.artBox);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.searchBox);
             this.Controls.Add(this.groupBox);
@@ -408,5 +419,6 @@
         private System.Windows.Forms.CheckBox fastSongCheckbox;
         private System.Windows.Forms.CheckBox disappearingArrowsCheckbox;
         private System.Windows.Forms.CheckBox ghostNotesCheckbox;
+        private System.Windows.Forms.CheckBox artBox;
     }
 }

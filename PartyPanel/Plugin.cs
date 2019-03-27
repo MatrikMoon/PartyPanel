@@ -51,9 +51,10 @@ namespace PartyPanel
         private IEnumerator PopulatePartyPanel(PartyPanel panel, List<BeatmapLevelSO> loadedSongs)
         {
             panel.g_songList.Enabled = false;
+            panel.g_songList.Items.Clear();
             foreach (IBeatmapLevel x in loadedSongs)
             {
-                if (x is CustomLevel)
+                if (panel.g_artCheckBox.Checked && x is CustomLevel)
                 {
                     try
                     {
