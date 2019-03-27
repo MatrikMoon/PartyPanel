@@ -31,6 +31,7 @@
             this.songListView = new System.Windows.Forms.ListView();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.positiveModifierBox = new System.Windows.Forms.GroupBox();
+            this.disappearingArrowsCheckbox = new System.Windows.Forms.CheckBox();
             this.fastSongCheckbox = new System.Windows.Forms.CheckBox();
             this.fastNotesCheckbox = new System.Windows.Forms.CheckBox();
             this.batteryEnergyCheckbox = new System.Windows.Forms.CheckBox();
@@ -52,7 +53,7 @@
             this.difficultyDropdown = new System.Windows.Forms.ComboBox();
             this.searchBox = new System.Windows.Forms.TextBox();
             this.searchLabel = new System.Windows.Forms.Label();
-            this.disappearingArrowsCheckbox = new System.Windows.Forms.CheckBox();
+            this.artBox = new System.Windows.Forms.CheckBox();
             this.groupBox.SuspendLayout();
             this.positiveModifierBox.SuspendLayout();
             this.negativeModifiersBox.SuspendLayout();
@@ -104,6 +105,16 @@
             this.positiveModifierBox.TabIndex = 9;
             this.positiveModifierBox.TabStop = false;
             this.positiveModifierBox.Text = "Positive Modifiers";
+            // 
+            // disappearingArrowsCheckbox
+            // 
+            this.disappearingArrowsCheckbox.AutoSize = true;
+            this.disappearingArrowsCheckbox.Location = new System.Drawing.Point(7, 156);
+            this.disappearingArrowsCheckbox.Name = "disappearingArrowsCheckbox";
+            this.disappearingArrowsCheckbox.Size = new System.Drawing.Size(161, 21);
+            this.disappearingArrowsCheckbox.TabIndex = 17;
+            this.disappearingArrowsCheckbox.Text = "Disappearing Arrows";
+            this.disappearingArrowsCheckbox.UseVisualStyleBackColor = true;
             // 
             // fastSongCheckbox
             // 
@@ -312,7 +323,7 @@
             this.searchBox.Location = new System.Drawing.Point(83, 15);
             this.searchBox.Margin = new System.Windows.Forms.Padding(4);
             this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(665, 22);
+            this.searchBox.Size = new System.Drawing.Size(228, 22);
             this.searchBox.TabIndex = 2;
             this.searchBox.Visible = false;
             this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
@@ -327,21 +338,23 @@
             this.searchLabel.TabIndex = 3;
             this.searchLabel.Text = "Waiting for songs to load...";
             // 
-            // disappearingArrowsCheckbox
+            // artBox
             // 
-            this.disappearingArrowsCheckbox.AutoSize = true;
-            this.disappearingArrowsCheckbox.Location = new System.Drawing.Point(7, 156);
-            this.disappearingArrowsCheckbox.Name = "disappearingArrowsCheckbox";
-            this.disappearingArrowsCheckbox.Size = new System.Drawing.Size(161, 21);
-            this.disappearingArrowsCheckbox.TabIndex = 17;
-            this.disappearingArrowsCheckbox.Text = "Disappearing Arrows";
-            this.disappearingArrowsCheckbox.UseVisualStyleBackColor = true;
+            this.artBox.AutoSize = true;
+            this.artBox.Location = new System.Drawing.Point(319, 16);
+            this.artBox.Name = "artBox";
+            this.artBox.Size = new System.Drawing.Size(431, 21);
+            this.artBox.TabIndex = 4;
+            this.artBox.Text = "Show Cover Art (Disabling helps with lag during song refreshes)";
+            this.artBox.UseVisualStyleBackColor = true;
+            this.artBox.CheckedChanged += new System.EventHandler(this.artBox_CheckedChanged);
             // 
             // PartyPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1021, 668);
+            this.Controls.Add(this.artBox);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.searchBox);
             this.Controls.Add(this.groupBox);
@@ -388,5 +401,6 @@
         private System.Windows.Forms.CheckBox fastNotesCheckbox;
         private System.Windows.Forms.CheckBox fastSongCheckbox;
         private System.Windows.Forms.CheckBox disappearingArrowsCheckbox;
+        private System.Windows.Forms.CheckBox artBox;
     }
 }

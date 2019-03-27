@@ -13,6 +13,7 @@ namespace PartyPanel
         public Label g_searchLabel;
         public TextBox g_searchBox;
         public ListView g_songList;
+        public CheckBox g_artCheckBox;
         public List<IBeatmapLevel> masterLevelList;
 
         public PartyPanel()
@@ -25,6 +26,7 @@ namespace PartyPanel
             g_songList.LargeImageList.ImageSize = new System.Drawing.Size(64, 64);
             g_searchLabel = searchLabel;
             g_searchBox = searchBox;
+            g_artCheckBox = artBox;
         }
 
         private void songListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -116,6 +118,13 @@ namespace PartyPanel
                     .ToArray()
                 );
             }
+        }
+
+        private void artBox_CheckedChanged(object sender, EventArgs e)
+        {
+            //if (!e.get)
+            songListView.SmallImageList.Images.Clear();
+            songListView.LargeImageList.Images.Clear();
         }
     }
 }
