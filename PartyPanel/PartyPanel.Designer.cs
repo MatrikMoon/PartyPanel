@@ -31,6 +31,7 @@
             this.songListView = new System.Windows.Forms.ListView();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.positiveModifierBox = new System.Windows.Forms.GroupBox();
+            this.ghostNotesCheckbox = new System.Windows.Forms.CheckBox();
             this.disappearingArrowsCheckbox = new System.Windows.Forms.CheckBox();
             this.fastSongCheckbox = new System.Windows.Forms.CheckBox();
             this.fastNotesCheckbox = new System.Windows.Forms.CheckBox();
@@ -53,7 +54,6 @@
             this.difficultyDropdown = new System.Windows.Forms.ComboBox();
             this.searchBox = new System.Windows.Forms.TextBox();
             this.searchLabel = new System.Windows.Forms.Label();
-            this.ghostNotesCheckbox = new System.Windows.Forms.CheckBox();
             this.artBox = new System.Windows.Forms.CheckBox();
             this.groupBox.SuspendLayout();
             this.positiveModifierBox.SuspendLayout();
@@ -67,7 +67,7 @@
             this.songListView.Location = new System.Drawing.Point(12, 38);
             this.songListView.MultiSelect = false;
             this.songListView.Name = "songListView";
-            this.songListView.Size = new System.Drawing.Size(550, 517);
+            this.songListView.Size = new System.Drawing.Size(805, 517);
             this.songListView.TabIndex = 0;
             this.songListView.UseCompatibleStateImageBehavior = false;
             this.songListView.SelectedIndexChanged += new System.EventHandler(this.songListView_SelectedIndexChanged);
@@ -82,7 +82,7 @@
             this.groupBox.Controls.Add(this.returnToMenuButton);
             this.groupBox.Controls.Add(this.playButton);
             this.groupBox.Controls.Add(this.difficultyDropdown);
-            this.groupBox.Location = new System.Drawing.Point(568, 12);
+            this.groupBox.Location = new System.Drawing.Point(823, 12);
             this.groupBox.Name = "groupBox";
             this.groupBox.Size = new System.Drawing.Size(186, 556);
             this.groupBox.TabIndex = 1;
@@ -99,20 +99,31 @@
             this.positiveModifierBox.Controls.Add(this.failOnClashCheckbox);
             this.positiveModifierBox.Controls.Add(this.instaFailCheckbox);
             this.positiveModifierBox.Location = new System.Drawing.Point(13, 267);
-            this.positiveModifierBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.positiveModifierBox.Margin = new System.Windows.Forms.Padding(2);
             this.positiveModifierBox.Name = "positiveModifierBox";
-            this.positiveModifierBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.positiveModifierBox.Padding = new System.Windows.Forms.Padding(2);
             this.positiveModifierBox.Size = new System.Drawing.Size(167, 173);
             this.positiveModifierBox.TabIndex = 9;
             this.positiveModifierBox.TabStop = false;
             this.positiveModifierBox.Text = "Positive Modifiers";
             // 
+            // ghostNotesCheckbox
+            // 
+            this.ghostNotesCheckbox.AutoSize = true;
+            this.ghostNotesCheckbox.Location = new System.Drawing.Point(4, 149);
+            this.ghostNotesCheckbox.Margin = new System.Windows.Forms.Padding(2);
+            this.ghostNotesCheckbox.Name = "ghostNotesCheckbox";
+            this.ghostNotesCheckbox.Size = new System.Drawing.Size(85, 17);
+            this.ghostNotesCheckbox.TabIndex = 18;
+            this.ghostNotesCheckbox.Text = "Ghost Notes";
+            this.ghostNotesCheckbox.UseVisualStyleBackColor = true;
+            // 
             // disappearingArrowsCheckbox
             // 
             this.disappearingArrowsCheckbox.AutoSize = true;
-            this.disappearingArrowsCheckbox.Location = new System.Drawing.Point(7, 156);
+            this.disappearingArrowsCheckbox.Location = new System.Drawing.Point(5, 127);
             this.disappearingArrowsCheckbox.Name = "disappearingArrowsCheckbox";
-            this.disappearingArrowsCheckbox.Size = new System.Drawing.Size(161, 21);
+            this.disappearingArrowsCheckbox.Size = new System.Drawing.Size(123, 17);
             this.disappearingArrowsCheckbox.TabIndex = 17;
             this.disappearingArrowsCheckbox.Text = "Disappearing Arrows";
             this.disappearingArrowsCheckbox.UseVisualStyleBackColor = true;
@@ -121,7 +132,7 @@
             // 
             this.fastSongCheckbox.AutoSize = true;
             this.fastSongCheckbox.Location = new System.Drawing.Point(5, 105);
-            this.fastSongCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.fastSongCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.fastSongCheckbox.Name = "fastSongCheckbox";
             this.fastSongCheckbox.Size = new System.Drawing.Size(74, 17);
             this.fastSongCheckbox.TabIndex = 16;
@@ -132,7 +143,7 @@
             // 
             this.fastNotesCheckbox.AutoSize = true;
             this.fastNotesCheckbox.Location = new System.Drawing.Point(5, 83);
-            this.fastNotesCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.fastNotesCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.fastNotesCheckbox.Name = "fastNotesCheckbox";
             this.fastNotesCheckbox.Size = new System.Drawing.Size(77, 17);
             this.fastNotesCheckbox.TabIndex = 15;
@@ -143,7 +154,7 @@
             // 
             this.batteryEnergyCheckbox.AutoSize = true;
             this.batteryEnergyCheckbox.Location = new System.Drawing.Point(5, 61);
-            this.batteryEnergyCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.batteryEnergyCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.batteryEnergyCheckbox.Name = "batteryEnergyCheckbox";
             this.batteryEnergyCheckbox.Size = new System.Drawing.Size(95, 17);
             this.batteryEnergyCheckbox.TabIndex = 14;
@@ -154,7 +165,7 @@
             // 
             this.failOnClashCheckbox.AutoSize = true;
             this.failOnClashCheckbox.Location = new System.Drawing.Point(5, 39);
-            this.failOnClashCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.failOnClashCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.failOnClashCheckbox.Name = "failOnClashCheckbox";
             this.failOnClashCheckbox.Size = new System.Drawing.Size(119, 17);
             this.failOnClashCheckbox.TabIndex = 13;
@@ -165,7 +176,7 @@
             // 
             this.instaFailCheckbox.AutoSize = true;
             this.instaFailCheckbox.Location = new System.Drawing.Point(5, 17);
-            this.instaFailCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.instaFailCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.instaFailCheckbox.Name = "instaFailCheckbox";
             this.instaFailCheckbox.Size = new System.Drawing.Size(68, 17);
             this.instaFailCheckbox.TabIndex = 12;
@@ -179,9 +190,9 @@
             this.negativeModifiersBox.Controls.Add(this.noBombsCheckbox);
             this.negativeModifiersBox.Controls.Add(this.noFailCheckbox);
             this.negativeModifiersBox.Location = new System.Drawing.Point(13, 156);
-            this.negativeModifiersBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.negativeModifiersBox.Margin = new System.Windows.Forms.Padding(2);
             this.negativeModifiersBox.Name = "negativeModifiersBox";
-            this.negativeModifiersBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.negativeModifiersBox.Padding = new System.Windows.Forms.Padding(2);
             this.negativeModifiersBox.Size = new System.Drawing.Size(166, 106);
             this.negativeModifiersBox.TabIndex = 8;
             this.negativeModifiersBox.TabStop = false;
@@ -191,7 +202,7 @@
             // 
             this.slowSongCheckbox.AutoSize = true;
             this.slowSongCheckbox.Location = new System.Drawing.Point(5, 84);
-            this.slowSongCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.slowSongCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.slowSongCheckbox.Name = "slowSongCheckbox";
             this.slowSongCheckbox.Size = new System.Drawing.Size(77, 17);
             this.slowSongCheckbox.TabIndex = 11;
@@ -202,7 +213,7 @@
             // 
             this.noWallsCheckbox.AutoSize = true;
             this.noWallsCheckbox.Location = new System.Drawing.Point(5, 63);
-            this.noWallsCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.noWallsCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.noWallsCheckbox.Name = "noWallsCheckbox";
             this.noWallsCheckbox.Size = new System.Drawing.Size(69, 17);
             this.noWallsCheckbox.TabIndex = 10;
@@ -213,7 +224,7 @@
             // 
             this.noBombsCheckbox.AutoSize = true;
             this.noBombsCheckbox.Location = new System.Drawing.Point(5, 41);
-            this.noBombsCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.noBombsCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.noBombsCheckbox.Name = "noBombsCheckbox";
             this.noBombsCheckbox.Size = new System.Drawing.Size(75, 17);
             this.noBombsCheckbox.TabIndex = 9;
@@ -238,9 +249,9 @@
             this.playerSettingsBox.Controls.Add(this.mirrorCheckbox);
             this.playerSettingsBox.Controls.Add(this.noHudCheckbox);
             this.playerSettingsBox.Location = new System.Drawing.Point(13, 18);
-            this.playerSettingsBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.playerSettingsBox.Margin = new System.Windows.Forms.Padding(2);
             this.playerSettingsBox.Name = "playerSettingsBox";
-            this.playerSettingsBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.playerSettingsBox.Padding = new System.Windows.Forms.Padding(2);
             this.playerSettingsBox.Size = new System.Drawing.Size(166, 133);
             this.playerSettingsBox.TabIndex = 7;
             this.playerSettingsBox.TabStop = false;
@@ -250,7 +261,7 @@
             // 
             this.reduceDebrisCheckbox.AutoSize = true;
             this.reduceDebrisCheckbox.Location = new System.Drawing.Point(5, 108);
-            this.reduceDebrisCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.reduceDebrisCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.reduceDebrisCheckbox.Name = "reduceDebrisCheckbox";
             this.reduceDebrisCheckbox.Size = new System.Drawing.Size(97, 17);
             this.reduceDebrisCheckbox.TabIndex = 8;
@@ -261,7 +272,7 @@
             // 
             this.advancedHudCheckbox.AutoSize = true;
             this.advancedHudCheckbox.Location = new System.Drawing.Point(5, 86);
-            this.advancedHudCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.advancedHudCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.advancedHudCheckbox.Name = "advancedHudCheckbox";
             this.advancedHudCheckbox.Size = new System.Drawing.Size(102, 17);
             this.advancedHudCheckbox.TabIndex = 7;
@@ -292,7 +303,7 @@
             // 
             this.noHudCheckbox.AutoSize = true;
             this.noHudCheckbox.Location = new System.Drawing.Point(5, 64);
-            this.noHudCheckbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.noHudCheckbox.Margin = new System.Windows.Forms.Padding(2);
             this.noHudCheckbox.Name = "noHudCheckbox";
             this.noHudCheckbox.Size = new System.Drawing.Size(67, 17);
             this.noHudCheckbox.TabIndex = 6;
@@ -332,7 +343,7 @@
             // 
             this.searchBox.Location = new System.Drawing.Point(62, 12);
             this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(228, 22);
+            this.searchBox.Size = new System.Drawing.Size(426, 20);
             this.searchBox.TabIndex = 2;
             this.searchBox.Visible = false;
             this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
@@ -346,22 +357,12 @@
             this.searchLabel.TabIndex = 3;
             this.searchLabel.Text = "Waiting for songs to load...";
             // 
-            // ghostNotesCheckbox
-            // 
-            this.ghostNotesCheckbox.AutoSize = true;
-            this.ghostNotesCheckbox.Location = new System.Drawing.Point(5, 148);
-            this.ghostNotesCheckbox.Margin = new System.Windows.Forms.Padding(2);
-            this.ghostNotesCheckbox.Name = "ghostNotesCheckbox";
-            this.ghostNotesCheckbox.Size = new System.Drawing.Size(85, 17);
-            this.ghostNotesCheckbox.TabIndex = 18;
-            this.ghostNotesCheckbox.Text = "Ghost Notes";
-            this.ghostNotesCheckbox.UseVisualStyleBackColor = true;
             // artBox
             // 
             this.artBox.AutoSize = true;
-            this.artBox.Location = new System.Drawing.Point(319, 16);
+            this.artBox.Location = new System.Drawing.Point(494, 15);
             this.artBox.Name = "artBox";
-            this.artBox.Size = new System.Drawing.Size(431, 21);
+            this.artBox.Size = new System.Drawing.Size(323, 17);
             this.artBox.TabIndex = 4;
             this.artBox.Text = "Show Cover Art (Disabling helps with lag during song refreshes)";
             this.artBox.UseVisualStyleBackColor = true;
