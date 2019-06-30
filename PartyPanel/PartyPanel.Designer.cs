@@ -30,7 +30,9 @@
         {
             this.songListView = new System.Windows.Forms.ListView();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.characteristicDropdown = new System.Windows.Forms.ComboBox();
             this.positiveModifierBox = new System.Windows.Forms.GroupBox();
+            this.ghostNotesCheckbox = new System.Windows.Forms.CheckBox();
             this.disappearingArrowsCheckbox = new System.Windows.Forms.CheckBox();
             this.fastSongCheckbox = new System.Windows.Forms.CheckBox();
             this.fastNotesCheckbox = new System.Windows.Forms.CheckBox();
@@ -67,15 +69,16 @@
             this.songListView.Margin = new System.Windows.Forms.Padding(4);
             this.songListView.MultiSelect = false;
             this.songListView.Name = "songListView";
-            this.songListView.Size = new System.Drawing.Size(732, 606);
+            this.songListView.Size = new System.Drawing.Size(732, 694);
             this.songListView.TabIndex = 0;
             this.songListView.UseCompatibleStateImageBehavior = false;
-            this.songListView.SelectedIndexChanged += new System.EventHandler(this.songListView_SelectedIndexChanged);
+            this.songListView.SelectedIndexChanged += new System.EventHandler(this.songListView_SelectedIndexChangedAsync);
             this.songListView.DoubleClick += new System.EventHandler(this.playButton_Click);
             // 
             // groupBox
             // 
             this.groupBox.AutoSize = true;
+            this.groupBox.Controls.Add(this.characteristicDropdown);
             this.groupBox.Controls.Add(this.positiveModifierBox);
             this.groupBox.Controls.Add(this.negativeModifiersBox);
             this.groupBox.Controls.Add(this.playerSettingsBox);
@@ -86,13 +89,25 @@
             this.groupBox.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox.Name = "groupBox";
             this.groupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox.Size = new System.Drawing.Size(248, 638);
+            this.groupBox.Size = new System.Drawing.Size(248, 741);
             this.groupBox.TabIndex = 1;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Options";
             // 
+            // characteristicDropdown
+            // 
+            this.characteristicDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.characteristicDropdown.FormattingEnabled = true;
+            this.characteristicDropdown.Location = new System.Drawing.Point(7, 590);
+            this.characteristicDropdown.Margin = new System.Windows.Forms.Padding(4);
+            this.characteristicDropdown.Name = "characteristicDropdown";
+            this.characteristicDropdown.Size = new System.Drawing.Size(231, 24);
+            this.characteristicDropdown.TabIndex = 10;
+            this.characteristicDropdown.SelectedIndexChanged += new System.EventHandler(this.CharacteristicDropdown_SelectedIndexChanged);
+            // 
             // positiveModifierBox
             // 
+            this.positiveModifierBox.Controls.Add(this.ghostNotesCheckbox);
             this.positiveModifierBox.Controls.Add(this.disappearingArrowsCheckbox);
             this.positiveModifierBox.Controls.Add(this.fastSongCheckbox);
             this.positiveModifierBox.Controls.Add(this.fastNotesCheckbox);
@@ -101,10 +116,20 @@
             this.positiveModifierBox.Controls.Add(this.instaFailCheckbox);
             this.positiveModifierBox.Location = new System.Drawing.Point(17, 329);
             this.positiveModifierBox.Name = "positiveModifierBox";
-            this.positiveModifierBox.Size = new System.Drawing.Size(223, 183);
+            this.positiveModifierBox.Size = new System.Drawing.Size(223, 214);
             this.positiveModifierBox.TabIndex = 9;
             this.positiveModifierBox.TabStop = false;
             this.positiveModifierBox.Text = "Positive Modifiers";
+            // 
+            // ghostNotesCheckbox
+            // 
+            this.ghostNotesCheckbox.AutoSize = true;
+            this.ghostNotesCheckbox.Location = new System.Drawing.Point(7, 183);
+            this.ghostNotesCheckbox.Name = "ghostNotesCheckbox";
+            this.ghostNotesCheckbox.Size = new System.Drawing.Size(109, 21);
+            this.ghostNotesCheckbox.TabIndex = 18;
+            this.ghostNotesCheckbox.Text = "Ghost Notes";
+            this.ghostNotesCheckbox.UseVisualStyleBackColor = true;
             // 
             // disappearingArrowsCheckbox
             // 
@@ -288,7 +313,7 @@
             // 
             // returnToMenuButton
             // 
-            this.returnToMenuButton.Location = new System.Drawing.Point(8, 587);
+            this.returnToMenuButton.Location = new System.Drawing.Point(7, 690);
             this.returnToMenuButton.Margin = new System.Windows.Forms.Padding(4);
             this.returnToMenuButton.Name = "returnToMenuButton";
             this.returnToMenuButton.Size = new System.Drawing.Size(232, 28);
@@ -299,7 +324,7 @@
             // 
             // playButton
             // 
-            this.playButton.Location = new System.Drawing.Point(8, 551);
+            this.playButton.Location = new System.Drawing.Point(7, 654);
             this.playButton.Margin = new System.Windows.Forms.Padding(4);
             this.playButton.Name = "playButton";
             this.playButton.Size = new System.Drawing.Size(232, 28);
@@ -312,7 +337,7 @@
             // 
             this.difficultyDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.difficultyDropdown.FormattingEnabled = true;
-            this.difficultyDropdown.Location = new System.Drawing.Point(8, 519);
+            this.difficultyDropdown.Location = new System.Drawing.Point(7, 622);
             this.difficultyDropdown.Margin = new System.Windows.Forms.Padding(4);
             this.difficultyDropdown.Name = "difficultyDropdown";
             this.difficultyDropdown.Size = new System.Drawing.Size(231, 24);
@@ -341,6 +366,7 @@
             // artBox
             // 
             this.artBox.AutoSize = true;
+            this.artBox.Enabled = false;
             this.artBox.Location = new System.Drawing.Point(319, 16);
             this.artBox.Name = "artBox";
             this.artBox.Size = new System.Drawing.Size(431, 21);
@@ -353,7 +379,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1021, 668);
+            this.ClientSize = new System.Drawing.Size(1021, 754);
             this.Controls.Add(this.artBox);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.searchBox);
@@ -402,5 +428,7 @@
         private System.Windows.Forms.CheckBox fastSongCheckbox;
         private System.Windows.Forms.CheckBox disappearingArrowsCheckbox;
         private System.Windows.Forms.CheckBox artBox;
+        private System.Windows.Forms.CheckBox ghostNotesCheckbox;
+        private System.Windows.Forms.ComboBox characteristicDropdown;
     }
 }

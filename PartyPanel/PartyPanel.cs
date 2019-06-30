@@ -1,8 +1,8 @@
-﻿using SongLoaderPlugin;
-using SongLoaderPlugin.OverrideClasses;
+﻿using SongCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using UnityEngine;
 
@@ -14,7 +14,9 @@ namespace PartyPanel
         public TextBox g_searchBox;
         public ListView g_songList;
         public CheckBox g_artCheckBox;
-        public List<IBeatmapLevel> masterLevelList;
+        public List<IPreviewBeatmapLevel> masterLevelList;
+
+        private IBeatmapLevel currentSelection;
 
         public PartyPanel()
         {
@@ -29,29 +31,52 @@ namespace PartyPanel
             g_artCheckBox = artBox;
         }
 
-        private void songListView_SelectedIndexChanged(object sender, EventArgs e)
+        private async void songListView_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
-            try
+            if (songListView.SelectedItems.Count >= 1)
             {
-                if (songListView.SelectedItems.Count >= 1)
-                {
-                    var levelID = songListView.SelectedItems[0].Name;
-                    IBeatmapLevel level = SongLoader.CustomLevels.Where(x => x.levelID == levelID).FirstOrDefault();
-                    
-                    //There really is no safety check for this. Again.
-                    if (level == null) level = Resources.FindObjectsOfTypeAll<LevelCollectionSO>().First().levels.First(x => x.levelID == levelID);
+                var levelID = songListView.SelectedItems[0].ImageKey;
+                IPreviewBeatmapLevel level = masterLevelList.Where(x => x.levelID == levelID).First();
 
-                    if (level != null)
+                //Clear out old info
+                characteristicDropdown.Items.Clear();
+                difficultyDropdown.Items.Clear();
+
+                //Callback for when the IBeatmapLevel is loaded
+                Action<IBeatmapLevel> SongLoaded = (loadedLevel) =>
+                {
+                    currentSelection = loadedLevel;
+
+                    loadedLevel.beatmapCharacteristics.ToList().ForEach(x => characteristicDropdown.Items.Add(x.serializedName));
+                    characteristicDropdown.SelectedIndex = 0;
+
+                    //We'll assume we've currently selected the 0th checkbox, since, well, we have
+                    loadedLevel
+                        .beatmapLevelData.difficultyBeatmapSets.First(x => x.beatmapCharacteristic == loadedLevel.beatmapCharacteristics.First())
+                        .difficultyBeatmaps.ToList().ForEach(x => difficultyDropdown.Items.Add(x.difficulty));
+                    difficultyDropdown.SelectedIndex = difficultyDropdown.Items.Count - 1;
+                };
+
+                //Load IBeatmapLevel
+                if (level is PreviewBeatmapLevelSO || level is CustomPreviewBeatmapLevel)
+                {
+                    if (level is PreviewBeatmapLevelSO)
                     {
-                        difficultyDropdown.Items.Clear();
-                        level.difficultyBeatmaps.ToList().ForEach(x => difficultyDropdown.Items.Add(x.difficulty));
-                        difficultyDropdown.SelectedIndex = difficultyDropdown.Items.Count - 1;
+                        if (!await SaberUtilities.HasDLCLevel(level.levelID)) return; //In the case of unowned DLC, just bail out and do nothing
+                    }
+
+                    var map = ((CustomPreviewBeatmapLevel)level).standardLevelInfoSaveData.difficultyBeatmapSets.First().difficultyBeatmaps.First();
+
+                    var result = await SaberUtilities.GetLevelFromPreview(level);
+                    if (result != null && !(result?.isError == true))
+                    {
+                        SongLoaded(result?.beatmapLevel);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex}");
+                else if (level is BeatmapLevelSO)
+                {
+                    SongLoaded(level as IBeatmapLevel);
+                }
             }
         }
 
@@ -79,15 +104,17 @@ namespace PartyPanel
                     slowSongCheckbox.Checked ? 
                         GameplayModifiers.SongSpeed.Slower :
                         GameplayModifiers.SongSpeed.Normal;
-                modifiers.disappearingArrows = disappearingArrowsCheckbox.Checked;
+                modifiers.disappearingArrows = disappearingArrowsCheckbox.Checked && !ghostNotesCheckbox.Checked;
+                modifiers.ghostNotes = ghostNotesCheckbox.Checked;
 
-                SaberUtilities.PlaySong(songListView.SelectedItems[0].Name, (BeatmapDifficulty)difficultyDropdown.SelectedItem, modifiers, playerSettings); //`Name` is the key we passed in on creation. Weird naming scheme.
+                var characteristic = currentSelection.beatmapCharacteristics.First(x => x.serializedName == characteristicDropdown.SelectedItem as string);
+                SaberUtilities.PlaySong(currentSelection, characteristic, (BeatmapDifficulty)difficultyDropdown.SelectedItem, modifiers, playerSettings);
             }
         }
 
         private void returnToMenuButton_Click(object sender, EventArgs e)
         {
-            Resources.FindObjectsOfTypeAll<StandardLevelSceneSetupDataSO>().FirstOrDefault()?.PopScenes(0.35f);
+            Resources.FindObjectsOfTypeAll<StandardLevelScenesTransitionSetupDataSO>().FirstOrDefault()?.PopScenes(0.35f);
         }
 
         private void searchBox_TextChanged(object sender, EventArgs e)
@@ -99,7 +126,7 @@ namespace PartyPanel
                 masterLevelList
                     .Select(x => {
                         var item = new ListViewItem(x.songName, x.levelID);
-                        item.Name = x.levelID; //LevelID used for launching game. AKA `key` in the Items.Add parameters
+                        item.ImageKey = x.levelID; //LevelID used for launching game. AKA `key` in the Items.Add parameters. `Name` is the key we passed in on creation. Weird naming scheme.
                         return item;
                     })
                     .ToArray()
@@ -112,7 +139,7 @@ namespace PartyPanel
                     .Where(x => x.songName.ToLower().Contains(searchBox.Text.ToLower()))
                     .Select(x => {
                         var item = new ListViewItem(x.songName, x.levelID);
-                        item.Name = x.levelID; //LevelID used for launching game. AKA `key` in the Items.Add parameters
+                        item.ImageKey = x.levelID; //LevelID used for launching game. AKA `key` in the Items.Add parameters
                         return item;
                     })
                     .ToArray()
@@ -122,9 +149,19 @@ namespace PartyPanel
 
         private void artBox_CheckedChanged(object sender, EventArgs e)
         {
-            //if (!e.get)
             songListView.SmallImageList.Images.Clear();
             songListView.LargeImageList.Images.Clear();
+        }
+
+        private void CharacteristicDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            difficultyDropdown.Items.Clear();
+
+            currentSelection.beatmapLevelData.difficultyBeatmapSets.First(
+                x => x.beatmapCharacteristic == currentSelection.beatmapCharacteristics.First(y => y.serializedName == characteristicDropdown.SelectedItem as string)
+            ).difficultyBeatmaps.ToList().ForEach(x => difficultyDropdown.Items.Add(x.difficulty));
+
+            difficultyDropdown.SelectedIndex = difficultyDropdown.Items.Count - 1;
         }
     }
 }
