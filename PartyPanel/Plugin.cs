@@ -1,9 +1,7 @@
 ﻿using IPA;
 using SongCore;
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,10 +25,14 @@ namespace PartyPanel
         private BeatmapLevelCollectionSO _secondaryLevelCollection;
         private BeatmapLevelCollectionSO _extrasLevelCollection;
 
+        public static List<IPreviewBeatmapLevel> masterLevelList;
+
+        private Client client;
+
         public void OnApplicationStart()
         {
-            PartyPanel panel = new PartyPanel();
-            panel.Show();
+            client = new Client();
+            client.Start();
 
             Loader.SongsLoadedEvent += (Loader _, Dictionary<string, CustomPreviewBeatmapLevel> __) =>
             {
@@ -39,47 +41,14 @@ namespace PartyPanel
                 if (_secondaryLevelCollection == null) _secondaryLevelCollection = _alwaysOwnedContentModel.alwaysOwnedPacks.First(x => x.packID == OstHelper.packs[1].PackID).beatmapLevelCollection as BeatmapLevelCollectionSO;
                 if (_extrasLevelCollection == null) _extrasLevelCollection = _alwaysOwnedContentModel.alwaysOwnedPacks.First(x => x.packID == OstHelper.packs[2].PackID).beatmapLevelCollection as BeatmapLevelCollectionSO;
 
-                var levels = new List<IPreviewBeatmapLevel>();
-                levels.AddRange(_primaryLevelCollection.beatmapLevels);
-                levels.AddRange(_secondaryLevelCollection.beatmapLevels);
-                levels.AddRange(_extrasLevelCollection.beatmapLevels);
-                levels.AddRange(Loader.CustomLevelsCollection.beatmapLevels);
-                PopulatePartyPanel(panel, levels);
+                masterLevelList = new List<IPreviewBeatmapLevel>();
+                masterLevelList.AddRange(_primaryLevelCollection.beatmapLevels);
+                masterLevelList.AddRange(_secondaryLevelCollection.beatmapLevels);
+                masterLevelList.AddRange(_extrasLevelCollection.beatmapLevels);
+                masterLevelList.AddRange(Loader.CustomLevelsCollection.beatmapLevels);
+
+                client.SendSongList(masterLevelList);
             };
-        }
-
-        //Load song list into the control panel without freezing the game
-        private void PopulatePartyPanel(PartyPanel panel, List<IPreviewBeatmapLevel> loadedSongs)
-        {
-            panel.g_songList.Enabled = false;
-            panel.g_songList.Items.Clear();
-
-            /*
-            foreach (IPreviewBeatmapLevel x in loadedSongs)
-            {
-                if (panel.g_artCheckBox.Checked && x is CustomPreviewBeatmapLevel)
-                {
-                    try
-                    {
-                        var songPath = ((CustomPreviewBeatmapLevel)x).customLevelPath;
-                        var coverArtFileName = Directory.EnumerateFiles(songPath).First(y => y.StartsWith("cover."));
-                        var songIcon = Image.FromFile($"{songPath}/{coverArtFileName}");
-                        panel.g_songList.SmallImageList.Images.Add(x.levelID, songIcon);
-                        panel.g_songList.LargeImageList.Images.Add(x.levelID, songIcon);
-                    }
-                    catch { }
-                }
-
-                yield return panel.g_songList.Items.Add(x.levelID, x.songName, x.levelID);
-            }
-            */
-
-            panel.g_songList.Items.AddRange(loadedSongs.Select(x => new System.Windows.Forms.ListViewItem(x.songName, x.levelID)).ToArray());
-
-            panel.masterLevelList = loadedSongs;
-            panel.g_songList.Enabled = true;
-            panel.g_searchBox.Visible = true;
-            panel.g_searchLabel.Text = "Search:";
         }
 
         public void OnApplicationQuit()

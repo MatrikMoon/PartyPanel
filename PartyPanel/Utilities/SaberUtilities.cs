@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using Logger = PartyPanelShared.Logger;
 
 namespace PartyPanel
 {
@@ -13,19 +14,47 @@ namespace PartyPanel
         private static CancellationTokenSource getLevelCancellationTokenSource;
         private static CancellationTokenSource getStatusCancellationTokenSource;
 
-        public static void PlaySong(IBeatmapLevel level, BeatmapCharacteristicSO characteristic, BeatmapDifficulty difficulty, GameplayModifiers gameplayModifiers = null, PlayerSpecificSettings playerSettings = null)
+        public static async void PlaySong(IPreviewBeatmapLevel level, BeatmapCharacteristicSO characteristic, BeatmapDifficulty difficulty, GameplayModifiers gameplayModifiers = null, PlayerSpecificSettings playerSettings = null)
         {
-            MenuTransitionsHelperSO _menuSceneSetupData = Resources.FindObjectsOfTypeAll<MenuTransitionsHelperSO>().First();
-            _menuSceneSetupData.StartStandardLevel(
-                level.beatmapLevelData.GetDifficultyBeatmap(characteristic, difficulty),
-                gameplayModifiers ?? new GameplayModifiers(),
-                playerSettings ?? new PlayerSpecificSettings(),
-                null,
-                "Menu",
-                false,
-                null,
-                null
-            );
+            Action<IBeatmapLevel> SongLoaded = (loadedLevel) =>
+            {
+                MenuTransitionsHelperSO _menuSceneSetupData = Resources.FindObjectsOfTypeAll<MenuTransitionsHelperSO>().First();
+                _menuSceneSetupData.StartStandardLevel(
+                    loadedLevel.beatmapLevelData.GetDifficultyBeatmap(characteristic, difficulty),
+                    gameplayModifiers ?? new GameplayModifiers(),
+                    playerSettings ?? new PlayerSpecificSettings(),
+                    null,
+                    "Menu",
+                    false,
+                    null,
+                    null
+                );
+            };
+
+            if ((level is PreviewBeatmapLevelSO && await HasDLCLevel(level.levelID)) ||
+                        level is CustomPreviewBeatmapLevel)
+            {
+                Logger.Debug("Loading DLC/Custom level...");
+                var result = await GetLevelFromPreview(level);
+                if (result != null && !(result?.isError == true))
+                {
+                    SongLoaded(result?.beatmapLevel);
+                }
+            }
+            else if (level is BeatmapLevelSO)
+            {
+                Logger.Debug("Reading OST data without songloader...");
+                SongLoaded(level as IBeatmapLevel);
+            }
+            else
+            {
+                Logger.Debug($"Skipping unowned DLC ({level.songName})");
+            }
+        }
+
+        public static void ReturnToMenu()
+        {
+            Resources.FindObjectsOfTypeAll<StandardLevelScenesTransitionSetupDataSO>().FirstOrDefault()?.PopScenes(0.35f);
         }
 
         //Returns the closest difficulty to the one provided, preferring lower difficulties first if any exist

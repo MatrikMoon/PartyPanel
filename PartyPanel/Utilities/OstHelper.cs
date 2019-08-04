@@ -63,9 +63,49 @@ namespace PartyPanel
                     PackName = "Extras",
                     SongDictionary = new Dictionary<string, string>
                     {
+                        { "Crystallized", "Crystallized" },
+                        { "CycleHit", "Cycle Hit" },
+                        { "WhatTheCat", "WHAT THE CAT!?" },
+                        { "CrabRave", "Crab Rave" },
                         { "AngelVoices", "Angel Voices" },
                         { "OneHope", "One Hope" },
                         { "PopStars", "POP/STARS - K/DA" }
+                    }
+                },
+                new Pack
+                {
+                    PackID = "Monstercat",
+                    PackName = "Monstercat Music Pack Vol. 1",
+                    SongDictionary = new Dictionary<string, string>
+                    {
+                        { "Boundless", "Boundless" },
+                        { "EmojiVIP", "Emoji VIP" },
+                        { "Epic", "EPIC" },
+                        { "FeelingStronger", "Feeling Stronger" },
+                        { "Overkill", "Overkill" },
+                        { "Rattlesnake", "Rattlesnake" },
+                        { "Stronger", "Stronger" },
+                        { "ThisTime", "This Time" },
+                        { "TillItsOver", "Till It's Over" },
+                        { "WeWontBeAlone", "We Won't Be Alone" },
+                    }
+                },
+                new Pack
+                {
+                    PackID = "ImagineDragons",
+                    PackName = "Imagine Dragons Music Pack",
+                    SongDictionary = new Dictionary<string, string>
+                    {
+                        { "BadLiar", "Bad Liar" },
+                        { "Believer", "Believer" },
+                        { "Digital", "Digital" },
+                        { "ItsTime", "It's Time" },
+                        { "Machine", "Machine" },
+                        { "Natural", "Natural" },
+                        { "Radioactive", "Radioactive" },
+                        { "Thunder", "Thunder" },
+                        { "Warriors", "Warriors" },
+                        { "WhateverItTakes", "Whatever It Takes" }
                     }
                 }
             };
