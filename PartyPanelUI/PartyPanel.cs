@@ -218,5 +218,15 @@ namespace PartyPanelUI
 
             difficultyDropdown.SelectedIndex = difficultyDropdown.Items.Count - 1;
         }
+
+        private void PartyPanel_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void PartyPanel_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            server.Shutdown();
+        }
     }
 }

@@ -24,6 +24,8 @@ namespace PartyPanelUI.Network
         public event Action<NetworkPlayer> PlayerConnected;
         public event Action<NetworkPlayer> PlayerDisconnected;
 
+        public bool Enabled { get; set; } = true;
+
         private List<NetworkPlayer> players = new List<NetworkPlayer>();
         private Socket server;
         private int port;
@@ -46,7 +48,7 @@ namespace PartyPanelUI.Network
             server.Bind(localEndPoint);
             server.Listen(100);
 
-            while (true)
+            while (Enabled)
             {
                 // Set the event to nonsignaled state.  
                 accpeting.Reset();
@@ -65,21 +67,28 @@ namespace PartyPanelUI.Network
             // Signal the main thread to continue.  
             accpeting.Set();
 
-            Socket listener = (Socket)ar.AsyncState;
-            Socket handler = listener.EndAccept(ar);
-
-            NetworkPlayer player = new NetworkPlayer();
-            player.id = rand.Next(int.MaxValue);
-            player.workSocket = handler;
-
-            lock (players)
+            try
             {
-                players.Add(player);
+                Socket listener = (Socket)ar.AsyncState;
+                Socket handler = listener.EndAccept(ar);
+
+                NetworkPlayer player = new NetworkPlayer();
+                player.id = rand.Next(int.MaxValue);
+                player.workSocket = handler;
+
+                lock (players)
+                {
+                    players.Add(player);
+                }
+
+                PlayerConnected?.Invoke(player);
+
+                handler.BeginReceive(player.buffer, 0, NetworkPlayer.BufferSize, 0, new AsyncCallback(ReadCallback), player);
             }
-
-            PlayerConnected?.Invoke(player);
-
-            handler.BeginReceive(player.buffer, 0, NetworkPlayer.BufferSize, 0, new AsyncCallback(ReadCallback), player);
+            catch (Exception e)
+            {
+                Logger.Debug(e.ToString());
+            }
         }
 
         public void ReadCallback(IAsyncResult ar)
@@ -177,6 +186,13 @@ namespace PartyPanelUI.Network
                 Logger.Debug(e.ToString());
                 PlayerDisconnected_Internal(player);
             }
+        }
+
+        public void Shutdown()
+        {
+            Enabled = false;
+            if (server.Connected) server.Shutdown(SocketShutdown.Both);
+            server.Close();
         }
     }
 }

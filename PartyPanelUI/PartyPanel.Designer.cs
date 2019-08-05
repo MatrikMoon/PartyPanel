@@ -388,6 +388,8 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PartyPanel";
             this.Text = "PartyPanel";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PartyPanel_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PartyPanel_FormClosed);
             this.groupBox.ResumeLayout(false);
             this.positiveModifierBox.ResumeLayout(false);
             this.positiveModifierBox.PerformLayout();
