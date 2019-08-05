@@ -26,6 +26,14 @@ namespace PartyPanel.Network
 
         private static ManualResetEvent connectDone = new ManualResetEvent(false);
 
+        public bool Connected
+        {
+            get
+            {
+                return player?.workSocket?.Connected ?? false;
+            }
+        }
+
         public Client(int port)
         {
             this.port = port;

@@ -77,7 +77,7 @@ namespace PartyPanel
 
         public void SendSongList(List<IPreviewBeatmapLevel> levels)
         {
-            if (client != null)
+            if (client != null && client.Connected)
             {
                 var subpacketList = new List<PreviewBeatmapLevel>();
                 subpacketList.AddRange(
