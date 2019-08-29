@@ -21,6 +21,8 @@ namespace PartyPanel
                 MenuTransitionsHelperSO _menuSceneSetupData = Resources.FindObjectsOfTypeAll<MenuTransitionsHelperSO>().First();
                 _menuSceneSetupData.StartStandardLevel(
                     loadedLevel.beatmapLevelData.GetDifficultyBeatmap(characteristic, difficulty),
+                    null,
+                    null,
                     gameplayModifiers ?? new GameplayModifiers(),
                     playerSettings ?? new PlayerSpecificSettings(),
                     null,
